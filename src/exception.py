@@ -4,7 +4,7 @@ def error_message_details(error,error_details:sys):
     _,_,exc_tb = error_details.exc_info()
     file_name = exc_tb.tb_frame.f_code.co_filename
     line_number = exc_tb.tb_lineno
-    error_message = "Error in python script name [{1}], line number [{2}], error message [{3}]".format(file_name,line_number,str(error))
+    error_message = f"Error in python script name [{file_name}], line number [{line_number}], error message [{str(error)}]"
     return error_message
 
 
