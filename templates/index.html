@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exam Performance Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .form-title {
+            color: #2d3748;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0px 0px 8px rgba(102, 126, 234, 0.5);
+        }
+
+        .predict-btn {
+            background: #ff5e62;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .predict-btn:hover {
+            background: #ff3b50;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+
+        .result-text {
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .result-value {
+            color: #667eea;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="form-title">Student Exam Performance Predictor</h1>
+        
+        <form action="{{ url_for('predict_data') }}" method="post">
+            <div class="form-group">
+                <label class="form-label">Gender</label>
+                <select class="form-control" name="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Race/Ethnicity</label>
+                <select class="form-control" name="ethnicity" required>
+                    <option value="" disabled selected>Select Ethnicity Group</option>
+                    <option value="group A">Group A</option>
+                    <option value="group B">Group B</option>
+                    <option value="group C">Group C</option>
+                    <option value="group D">Group D</option>
+                    <option value="group E">Group E</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Parent Education</label>
+                <select class="form-control" name="parental_level_of_education" required>
+                    <option value="" disabled selected>Select Education Level</option>
+                    <option value="associate's degree">Associate's Degree</option>
+                    <option value="bachelor's degree">Bachelor's Degree</option>
+                    <option value="high school">High School</option>
+                    <option value="master's degree">Master's Degree</option>
+                    <option value="some college">Some College</option>
+                    <option value="some high school">Some High School</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Lunch Type</label>
+                <select class="form-control" name="lunch" required>
+                    <option value="" disabled selected>Select Lunch Type</option>
+                    <option value="free/reduced">Free/Reduced</option>
+                    <option value="standard">Standard</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Test Preparation</label>
+                <select class="form-control" name="test_preparation_course" required>
+                    <option value="" disabled selected>Select Course Status</option>
+                    <option value="none">Not Completed</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Writing Score</label>
+                <input class="form-control" type="number" name="writing_score" placeholder="Enter Writing Score (0-100)" min="0" max="100" required oninput="validateScore(this)">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Reading Score</label>
+                <input class="form-control" type="number" name="reading_score" placeholder="Enter Reading Score (0-100)" min="0" max="100" required oninput="validateScore(this)">
+            </div>
+
+            <button type="submit" class="predict-btn">
+                Predict Math Score
+            </button>
+        </form>
+
+        {% if results %}
+        <div class="result-box">
+            <p class="result-text">
+                Predicted Math Score:
+                <span class="result-value">{{ results }}</span>
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function validateScore(input) {
+            if (input.value < 0) input.value = 0;
+            if (input.value > 100) input.value = 100;
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
