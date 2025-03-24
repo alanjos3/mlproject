@@ -85,16 +85,18 @@ If you encounter `ValueError: Found unknown categories [None]`, ensure that:
 - The `preprocessor.pkl` file is up to date.
 - The `predict_pipeline.py` is correctly handling categorical encoding.
 
-## Adding UI Image
+## UI Image
 
-To add an image of the UI:
+<!-- To add an image of the UI:
 
 1. Capture a screenshot of the web interface.
 2. Save it in the `assets/` directory.
 3. Link it in this README as follows:
    ```markdown
    ![App UI](assets/UI_image.png)
-   ```
+   ``` -->
+
+   ![Alt text](assets/UI_image.png)
 
 ## License
 
