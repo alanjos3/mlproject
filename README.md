@@ -38,8 +38,8 @@ End-to-End Student Performance Indicator/
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-repo/end-to-end-student-performance-indicator.git
-   cd end-to-end-student-performance-indicator
+   git clone https://github.com/alanjos3/mlproject.git
+   cd mlproject
    ```
 2. **Create and Activate Virtual Environment:**
    ```bash
