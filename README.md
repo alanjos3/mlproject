@@ -94,7 +94,7 @@ If you encounter `ValueError: Found unknown categories [None]`, ensure that:
 3. Link it in this README as follows:
    ```markdown
    ![App UI](assets/UI_image.png)
-   ``` -->
+   ``` -->  
 
    ![Alt text](assets/UI_image.png)
 
